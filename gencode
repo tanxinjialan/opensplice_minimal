@@ -1,14 +1,26 @@
 #/usr/bin/env bash
 
-if [ "$(ls -A gen)" ]; then
+# Remove previous *.cpp, *.h, *.hpp files in folder 'gen'
+if [ "$(ls -A gen)" ]
+then
+    echo "Clearing old files (*.cpp and *.h)..."
     rm gen/*.cpp
     rm gen/*.h
-    rm gen/*.hpp
+    echo "Done"
 fi
 
-#idlpp -S -l c++ -I $OSPL_HOME/etc/idl -d src idl/*.idl 
+# Vortex Opensplice IDL Pre-processor (idlpp)
+# For full details, please visit website: http://download.prismtech.com/docs/Vortex/html/ospl/IDLPreProcGuide/commandline.html
+#
+# ./idlpp                                                               : run the IDL pre-processor (i.e. $OSPL_HOME/bin/./idlpp)
+# < -S | -C >                                                           : specifies standalone mode, which allows application programs to be built 
+#                                                                         and run without involvement of any ORB. (i.e. -S)
+# < -l (c | c++ | cpp | java | cs | isocpp | isoc++ | c99 | simulink) > : selects the target language (i.e. -l cpp)
+# [ -d <output-directory> ]                                             : specifies the output directory for the generated code (i.e. gen)
+# <filename>                                                            : specifies the IDL input file to process (i.e. idl/*.idl)
+#
+# Options shown between angle brackets, < and >, are mandatory.
+# Options shown between square brackets, [ and ], are optional.
 
-#$OSPL_HOME/bin/./idlpp -l isoc++2 -I$OSPL_HOME/etc/idlpp -d gen idl/*.idl 
-
-$OSPL_HOME/bin/./idlpp -S -l cpp -d gen idl/*.idl 
-
+$OSPL_HOME/bin/./idlpp -S -l cpp -d gen idl/*.idl
+echo "*.cpp and *.h files generated."
